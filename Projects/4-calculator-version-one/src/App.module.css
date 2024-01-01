@@ -1,0 +1,17 @@
+.container {
+  /* width: 300px;
+  height: auto;
+  border: 1px solid blue;
+  border-radius: 40px;
+  box-sizing: border-box */
+  width: 400px;
+  height: auto;
+  /* margin: 100px auto; */
+  /* background-color: #797373; */
+  color: #fff;
+  border-radius: 10px;
+  border-radius: 20px;
+  border: 1px solid blue;
+  /* box-shadow: 10px 10px 15px .1px black; */
+  
+}
