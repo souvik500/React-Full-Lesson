@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Items from "./Items";
 
 const FoodItems = ({ item1 }) => {
@@ -5,6 +6,8 @@ const FoodItems = ({ item1 }) => {
   // let foodItems = []
 
   // let emptyFood = foodItems !== 0 ? null : "I am hungry";
+
+  let [] = useState([]);
 
   const buyButtonOnClickEvent = (foodItem) => {
     console.log(`This ${foodItem} has been added to your cart!`);
