@@ -7,10 +7,14 @@ const FoodItems = ({ item1 }) => {
 
   // let emptyFood = foodItems !== 0 ? null : "I am hungry";
 
-  let [] = useState([]);
+  let [activeItem, setActiveItem] = useState([]);
 
-  const buyButtonOnClickEvent = (foodItem) => {
+  const OnClickEvent = (foodItem, event) => {
     console.log(`This ${foodItem} has been added to your cart!`);
+    console.log(activeItem);
+    let newItem = [...activeItem, foodItem];
+    setActiveItem(newItem);
+    // console.log(setActiveItem);
   };
 
   return (
@@ -20,7 +24,8 @@ const FoodItems = ({ item1 }) => {
           <Items
             key={i}
             foodItem1={i}
-            buyButtonOnClickEvent={() => buyButtonOnClickEvent(i)}
+            bought={activeItem.includes(i)}
+            buyButtonOnClickEvent={(event) => OnClickEvent(i, event)}
           ></Items>
         ))}
       </ul>
