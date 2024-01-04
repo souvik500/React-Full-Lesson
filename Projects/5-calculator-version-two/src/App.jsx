@@ -4,40 +4,31 @@ import CalculatorKeys from "./components/CalculatorKeys.jsx";
 import { useState } from "react";
 
 function App() {
-  const keysButton = [
-    "C",
-    "+",
-    "-",
-    "*",
-    "/",
-    "%",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "0",
-  ];
+  const onClickHandler = (buttonName) => {
+    if (buttonName === "C") {
+      setCalVal("");
+    } else if (buttonName === "=") {
+      try {
+        let result = eval(calVal);
 
-  const onClickHandler = (bn, event) => {
-    console.log(`Button Click : ${bn}`);
+        setCalVal(`${calVal} = ${result}`);
+      } catch {
+        alert("Error!");
+      }
+    } else {
+      const newDisplayVal = calVal + buttonName;
+      setCalVal(newDisplayVal);
+    }
   };
 
-  let [calc, setCalc] = useState([]);
+  let [calVal, setCalVal] = useState("");
 
   return (
     <>
       <div className={css.container}>
-        <ShowCalculation inputNo={calc} />
+        <ShowCalculation inputNo={calVal} />
 
-        <CalculatorKeys
-          keys={keysButton}
-          onClick={(event) => onClickHandler(keysButton, event)}
-        />
+        <CalculatorKeys onClickButton={onClickHandler} />
       </div>
     </>
   );
