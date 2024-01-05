@@ -1,12 +1,22 @@
-function ToDoItem({ todoName, todoDate }) {
-  // console.log(todoName, todoDate);
+function ToDoItem({ todoName, todoDate, onDelete }) {
+  console.log(todoName, todoDate);
+
+  const handleDelete = () => {
+    // Call the onDelete callback with the todoName or any other identifier
+    onDelete(todoName);
+  };
+
   return (
     <div className="container">
       <div className="row kg-row">
         <div className="col-6">{todoName}</div>
         <div className="col-4">{todoDate}</div>
         <div className="col-2">
-          <button type="button" className="btn btn-danger kg-button">
+          <button
+            type="button"
+            className="btn btn-danger kg-button"
+            onClick={handleDelete}
+          >
             Delete
           </button>
         </div>

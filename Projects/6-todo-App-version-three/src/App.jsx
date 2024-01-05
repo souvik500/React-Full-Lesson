@@ -9,9 +9,15 @@ function App() {
   const [addtodo, setAddtodo] = useState([]);
 
   const handleAddItems = (itemName, dueDate) => {
-    //   console.log("The button was clicked!");
-    let newItem = { itemName: itemName, dueDate: dueDate };
+    let newItem = { id: addtodo.length + 1, name: itemName, date: dueDate };
     setAddtodo([...addtodo, newItem]);
+    console.log(newItem.name + "," + dueDate);
+  };
+
+  const handleDeleteItem = (itemName) => {
+    // Filter out the item to be deleted
+    const updatedItems = addtodo.filter((item) => item.name !== itemName);
+    setAddtodo(updatedItems);
   };
 
   return (
@@ -20,7 +26,7 @@ function App() {
 
       <AddTodo addOnClick={handleAddItems} />
 
-      <ToDoItems />
+      <ToDoItems addItems={addtodo} handleDeleteItem={handleDeleteItem} />
     </center>
   );
 }
