@@ -10,7 +10,11 @@ function App() {
 
   const handleAddItems = (itemName, dueDate) => {
     let newItem = { id: addtodo.length + 1, name: itemName, date: dueDate };
-    setAddtodo([...addtodo, newItem]);
+
+    setAddtodo((prevList) => {
+      return [...prevList, newItem];
+    });
+
     console.log(newItem.name + "," + dueDate);
   };
 
