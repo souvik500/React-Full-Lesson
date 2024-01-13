@@ -1,9 +1,15 @@
-import { useState, useRef } from "react";
+import { useContext, useRef } from "react";
 import { MdAddChart } from "react-icons/md";
+import { ToDoItemsContext } from "../store/Todo-Items-Store";
 
-function AddTodo({ addOnClick }) {
+function AddTodo() {
   // const [newName, setNewName] = useState("");
   // const [newDate, setNewDate] = useState("");
+
+  const { todoItems, addNewItems } = useContext(ToDoItemsContext);
+
+  // const addNewItem = contextObject.addNewItem;
+
   const todoNameElement = useRef();
   const dueDateElement = useRef();
 
@@ -21,7 +27,7 @@ function AddTodo({ addOnClick }) {
     const newName = todoNameElement.current.value;
     const newDate = dueDateElement.current.value;
 
-    addOnClick(newName, newDate);
+    addNewItems(newName, newDate);
     // Clear input fields after adding
     todoNameElement.current.value = "";
     dueDateElement.current.value = "";

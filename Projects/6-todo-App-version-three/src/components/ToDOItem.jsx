@@ -1,7 +1,7 @@
 import { RiDeleteBin2Fill } from "react-icons/ri";
 
 function ToDoItem({ todoName, todoDate, onDelete }) {
-  console.log(todoName, todoDate);
+  // console.log(todoName, todoDate);
 
   const handleDelete = () => {
     // Call the onDelete callback with the todoName or any other identifier

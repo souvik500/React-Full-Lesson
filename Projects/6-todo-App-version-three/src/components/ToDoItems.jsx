@@ -1,7 +1,9 @@
+import { useContext } from "react";
 import ToDoItem from "./ToDOItem";
 import css from "./ToDOItems.module.css";
+import { ToDoItemsContext } from "../store/Todo-Items-Store";
 
-const ToDoItems = ({ addItems, handleDeleteItem }) => {
+const ToDoItems = () => {
   // const itemDetails = [
   //   {
   //     id: 1,
@@ -20,12 +22,18 @@ const ToDoItems = ({ addItems, handleDeleteItem }) => {
   //   },
   // ];
 
+  const { todoItems, handleDeleteItem } = useContext(ToDoItemsContext);
+
+  // const { todoItems } = contextObject.todoItems;
+
+  // const handleDeleteItem = contextObject.deleteItem;
+
   return (
     <>
       <div className={css.itemContainer}>
         {/* {console.log(todoItems)} */}
 
-        {addItems.map((i) => (
+        {todoItems.map((i) => (
           <ToDoItem
             key={i.id}
             todoName={i.name}

@@ -3,35 +3,73 @@ import AppName from "./components/AppName";
 
 import "./App.css";
 import ToDoItems from "./components/ToDoItems";
-import { useState } from "react";
+import { useReducer } from "react";
+import WelCome from "./components/Welcome";
+import { ToDoItemsContext } from "./store/Todo-Items-Store";
+
+const todoItemsReducer = (currToDOItems, action) => {
+  let newTodoItems = currToDOItems;
+
+  if (action.type == "ADD_ITEM") {
+    newTodoItems = [
+      ...currToDOItems,
+      {
+        name: action.payload.itemName,
+        date: action.payload.itemDueDate,
+      },
+    ];
+  } else if (action.type === "DELETE_ITEM") {
+    newTodoItems = todoItems.filter(
+      (item) => item.name !== action.payload.itemName
+    );
+  }
+};
 
 function App() {
-  const [addtodo, setAddtodo] = useState([]);
+  const [todoItems, dispatchTodoItems] = useReducer(todoItemsReducer, []);
 
-  const handleAddItems = (itemName, dueDate) => {
-    let newItem = { id: addtodo.length + 1, name: itemName, date: dueDate };
-
-    setAddtodo((prevList) => {
-      return [...prevList, newItem];
+  const addNewItems = (itemName, itemDueDate) => {
+    const newItemAction = {
+      type: "ADD_ITEM",
+      payload: { itemName, itemDueDate },
+    };
+    dispatchTodoItems(newItemAction);
+    /*
+    
     });
 
-    console.log(newItem.name + "," + dueDate);
+    console.log(newItem.name + "," + dueDate);*/
   };
 
-  const handleDeleteItem = (itemName) => {
-    // Filter out the item to be deleted
-    const updatedItems = addtodo.filter((item) => item.name !== itemName);
-    setAddtodo(updatedItems);
+  const deleteItem = (itemName) => {
+    const delItemAction = {
+      type: "DELETE_ITEM",
+      payload: itemName,
+    };
+    dispatchTodoItems(delItemAction);
+
+    /* // Filter out the item to be deleted
+    const */
   };
 
   return (
-    <center className="todo-container">
-      <AppName />
+    <ToDoItemsContext.Provider
+      value={{
+        todoItems,
+        addNewItems,
+        handleDeleteItem: deleteItem,
+      }}
+    >
+      <center className="todo-container">
+        <AppName />
 
-      <AddTodo addOnClick={handleAddItems} />
+        <AddTodo />
 
-      <ToDoItems addItems={addtodo} handleDeleteItem={handleDeleteItem} />
-    </center>
+        <WelCome />
+
+        <ToDoItems />
+      </center>
+    </ToDoItemsContext.Provider>
   );
 }
 
