@@ -22,11 +22,7 @@ const ToDoItems = () => {
   //   },
   // ];
 
-  const { todoItems, handleDeleteItem } = useContext(ToDoItemsContext);
-
-  // const { todoItems } = contextObject.todoItems;
-
-  // const handleDeleteItem = contextObject.deleteItem;
+  const { todoItems } = useContext(ToDoItemsContext);
 
   return (
     <>
@@ -36,9 +32,10 @@ const ToDoItems = () => {
         {todoItems.map((i) => (
           <ToDoItem
             key={i.id}
+            id={i.id}
             todoName={i.name}
             todoDate={i.date}
-            onDelete={handleDeleteItem}
+            // onDelete={() => deleteItem(i.name)}
           />
         ))}
       </div>

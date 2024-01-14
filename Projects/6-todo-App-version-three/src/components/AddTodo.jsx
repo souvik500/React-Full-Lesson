@@ -6,7 +6,7 @@ function AddTodo() {
   // const [newName, setNewName] = useState("");
   // const [newDate, setNewDate] = useState("");
 
-  const { todoItems, addNewItems } = useContext(ToDoItemsContext);
+  const { addNewItems } = useContext(ToDoItemsContext);
 
   // const addNewItem = contextObject.addNewItem;
 

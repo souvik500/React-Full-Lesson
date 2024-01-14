@@ -1,11 +1,15 @@
+import { useContext } from "react";
 import { RiDeleteBin2Fill } from "react-icons/ri";
+import { ToDoItemsContext } from "../store/Todo-Items-Store";
 
-function ToDoItem({ todoName, todoDate, onDelete }) {
+function ToDoItem({ id, todoName, todoDate }) {
   // console.log(todoName, todoDate);
+
+  const { deleteItem } = useContext(ToDoItemsContext);
 
   const handleDelete = () => {
     // Call the onDelete callback with the todoName or any other identifier
-    onDelete(todoName);
+    deleteItem(id);
   };
 
   return (
