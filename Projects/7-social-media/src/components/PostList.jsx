@@ -8,8 +8,8 @@ const PostList = () => {
 
   return (
     <>
-      {postList.map((post, index) => (
-        <Post key={index} post />
+      {postList.map((posts, index) => (
+        <Post key={index} posts />
       ))}
     </>
   );
