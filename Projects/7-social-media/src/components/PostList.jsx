@@ -4,12 +4,12 @@ import { PostListContext } from "../stores/Post-List-Store";
 
 const PostList = () => {
   const { postList } = useContext(PostListContext);
-  console.log(postList);
+  // console.log(postList);
 
   return (
     <>
-      {postList.map((posts, index) => (
-        <Post key={index} posts />
+      {postList.map((posts) => (
+        <Post key={posts.id} posts={posts} />
       ))}
     </>
   );

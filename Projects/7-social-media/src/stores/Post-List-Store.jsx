@@ -7,31 +7,39 @@ export const PostListContext = createContext({
 });
 
 const PostListReducer = (currPost, action) => {
-  switch (action.type) {
-    case "ADD_POST":
-      return [...currPost, action.payload];
-    case "DELETE_LAST_POST":
-      return currPost.slice(0, -1);
-    default:
-      return currPost;
+  let newPost = currPost;
+
+  if (action.type == "DELETE_POST") {
+    newPost = currPost.filter((post) => post.id !== action.payload.postId);
+  } else {
+    newPost = [...currPost, action.payload];
   }
+
+  return newPost;
 };
 
 const PostListProvider = ({ children }) => {
-  const [postList, dispatchPostList] = useReducer(
-    PostListReducer,
-    DEFAULT_POST_LIST
-  );
+  const [postList, dispatchPostList] = useReducer(PostListReducer, []);
 
-  const addPost = () => {
+  const addPost = (user_id, title, content, reactions, tags) => {
     // Add a new post to the list.
-    dispatchPostList({ type: "ADD_POST", payload: {} });
+    dispatchPostList({
+      type: "ADD_POST",
+      payload: {
+        id: Date.now(),
+        title,
+        content,
+        reactions: reactions,
+        user_id: user_id,
+        tags: tags,
+      },
+    });
   };
 
-  const deletePost = () => {
+  const deletePost = (postId) => {
     // Remove the last added post from the list.
     if (postList.length > 0) {
-      dispatchPostList({ type: "DELETE_LAST_POST" });
+      dispatchPostList({ type: "DELETE_POST", payload: { postId } });
     }
   };
 
@@ -48,24 +56,24 @@ const PostListProvider = ({ children }) => {
   );
 };
 
-const DEFAULT_POST_LIST = [
-  {
-    id: "1",
-    Title: `Social Media 1`,
-    Content: `This is content for Social Media 1`,
-    reactions: 2,
-    user_id: "user-1",
-    tags: ["java", "c++", "c#"],
-  },
+// const DEFAULT_POST_LIST = [
+//   {
+//     id: "1",
+//     title: `Social Media 1`,
+//     content: `This is content for Social Media 1`,
+//     reactions: 2,
+//     user_id: "user-1",
+//     tags: ["java", "c++", "c#"],
+//   },
 
-  {
-    id: "2",
-    Title: `Social Media 2`,
-    Content: `This is content for Social Media 2`,
-    reactions: 20,
-    user_id: "user-2",
-    tags: ["math", "dsa", "web services"],
-  },
-];
+//   {
+//     id: "2",
+//     title: `Social Media 2`,
+//     content: `This is content for Social Media 2`,
+//     reactions: 20,
+//     user_id: "user-2",
+//     tags: ["math", "dsa", "web services"],
+//   },
+// ];
 
 export default PostListProvider;
