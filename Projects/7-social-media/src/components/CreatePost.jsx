@@ -16,9 +16,15 @@ const CreatePost = () => {
     const title = titleElement.current.value;
     const content = contentElement.current.value;
     const reactions = reactionElement.current.value; // TODO: implement reactions
-    const tagsInput = tagElement.current.value;
+    const tags = tagElement.current.value.split(" ");
 
-    const tags = tagsInput.split(",").map((tag) => tag.trim());
+    userId.current.value = "";
+    titleElement.current.value = "";
+    contentElement.current.value = "";
+    reactionElement.current.value = "";
+    tagElement.current.value = "";
+
+    // const tags = tagsInput.split(",").map((tag) => tag.trim());
 
     addPost(user_id, title, content, reactions, tags);
   };
