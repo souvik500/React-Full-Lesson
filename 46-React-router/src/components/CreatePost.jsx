@@ -18,15 +18,25 @@ const CreatePost = () => {
     const reactions = reactionElement.current.value; // TODO: implement reactions
     const tags = tagElement.current.value.split(" ");
 
-    userId.current.value = "";
+    /*userId.current.value = "";
     titleElement.current.value = "";
     contentElement.current.value = "";
     reactionElement.current.value = "";
-    tagElement.current.value = "";
+    tagElement.current.value = "";*/
 
-    // const tags = tagsInput.split(",").map((tag) => tag.trim());
-
-    addPost(user_id, title, content, reactions, tags);
+    fetch("https://dummyjson.com/posts/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: title,
+        body: content,
+        reactions: reactions,
+        userId: user_id,
+        tags: tags,
+      }),
+    })
+      .then((res) => res.json())
+      .then((post) => addPost(post));
   };
 
   return (
@@ -49,7 +59,7 @@ const CreatePost = () => {
           Post Title
         </label>
         <input
-          type="title"
+          type="text"
           ref={titleElement}
           className="form-control"
           id="exampleInputEmail1"
@@ -64,7 +74,7 @@ const CreatePost = () => {
         <textarea
           rows={4}
           ref={contentElement}
-          type="content"
+          type="text"
           className="form-control"
         />
       </div>
@@ -74,7 +84,7 @@ const CreatePost = () => {
           People Reaction
         </label>
         <input
-          type="reaction"
+          type="number"
           ref={reactionElement}
           className="form-control"
           placeholder="Your Reaction Number"

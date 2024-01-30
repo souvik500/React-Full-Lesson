@@ -1,8 +1,8 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 
 export const PostListContext = createContext({
   postList: [],
-  addInitialPost: () => {},
+  fetching: false,
   addPost: () => {},
   deletePost: () => {},
 });
@@ -13,7 +13,7 @@ const PostListReducer = (currPost, action) => {
   if (action.type == "DELETE_POST") {
     newPost = currPost.filter((post) => post.id !== action.payload.postId);
   } else if (action.type === "ADD_POST") {
-    newPost = [...currPost, action.payload];
+    newPost = [action.payload, ...currPost];
   } else if (action.type === "ADD_INITIAL_POST") {
     newPost = action.payload.posts;
     console.log(action.payload);
@@ -25,27 +25,36 @@ const PostListReducer = (currPost, action) => {
 const PostListProvider = ({ children }) => {
   const [postList, dispatchPostList] = useReducer(PostListReducer, []);
 
+  const [fetching, setFetching] = useState(false);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+    setFetching(true);
+    fetch("https://dummyjson.com/posts", { signal })
+      .then((res) => res.json())
+      .then((data) => {
+        addInitialPost(data.posts);
+        setFetching(false);
+      });
+    return () => {
+      controller.abort();
+    };
+  }, []);
+
   const addInitialPost = (posts) => {
-    // Add a new post to the list.
     dispatchPostList({
       type: "ADD_INITIAL_POST",
-      payload: {
-        posts,
-      },
+      payload: { posts },
     });
   };
 
-  const addPost = (user_id, title, content, reactions, tags) => {
+  const addPost = (posts) => {
     // Add a new post to the list.
     dispatchPostList({
       type: "ADD_POST",
       payload: {
-        id: Date.now(),
-        title,
-        content,
-        reactions: reactions,
-        user_id: user_id,
-        tags: tags,
+        posts,
       },
     });
   };
@@ -53,7 +62,10 @@ const PostListProvider = ({ children }) => {
   const deletePost = (postId) => {
     // Remove the last added post from the list.
     if (postList.length > 0) {
-      dispatchPostList({ type: "DELETE_POST", payload: { postId } });
+      dispatchPostList({
+        type: "DELETE_POST",
+        payload: { postId },
+      });
     }
   };
 
@@ -61,7 +73,7 @@ const PostListProvider = ({ children }) => {
     <PostListContext.Provider
       value={{
         postList,
-        addInitialPost,
+        fetching,
         addPost,
         deletePost,
       }}
