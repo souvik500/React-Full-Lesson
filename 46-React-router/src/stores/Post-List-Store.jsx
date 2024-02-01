@@ -15,8 +15,7 @@ const PostListReducer = (currPost, action) => {
   } else if (action.type === "ADD_POST") {
     newPost = [action.payload, ...currPost];
   } else if (action.type === "ADD_INITIAL_POST") {
-    newPost = action.payload.posts;
-    console.log(action.payload);
+    newPost = action.payload;
   }
 
   return newPost;
@@ -27,35 +26,18 @@ const PostListProvider = ({ children }) => {
 
   const [fetching, setFetching] = useState(false);
 
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    setFetching(true);
-    fetch("https://dummyjson.com/posts", { signal })
-      .then((res) => res.json())
-      .then((data) => {
-        addInitialPost(data.posts);
-        setFetching(false);
-      });
-    return () => {
-      controller.abort();
-    };
-  }, []);
-
   const addInitialPost = (posts) => {
     dispatchPostList({
       type: "ADD_INITIAL_POST",
-      payload: { posts },
+      payload: posts,
     });
   };
 
-  const addPost = (posts) => {
+  const addPost = (post) => {
     // Add a new post to the list.
     dispatchPostList({
       type: "ADD_POST",
-      payload: {
-        posts,
-      },
+      payload: post,
     });
   };
 
@@ -68,6 +50,23 @@ const PostListProvider = ({ children }) => {
       });
     }
   };
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+    setFetching(true);
+    fetch("https://dummyjson.com/posts", { signal })
+      .then((res) => res.json())
+      .then((data) => {
+        addInitialPost(data.posts);
+        setFetching(false);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
 
   return (
     <PostListContext.Provider

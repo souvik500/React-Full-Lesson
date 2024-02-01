@@ -6,11 +6,12 @@ import LoadingSpinner from "./LoadingSpinner";
 
 const PostList = () => {
   const { postList, fetching } = useContext(PostListContext);
+  // console.log(`fetching : ${fetching}`);
 
   return (
     <>
       {fetching && <LoadingSpinner />}
-      {fetching && postList.length === 0 && <WelComeMessage />}
+      {!fetching && postList.length === 0 && <WelComeMessage />}
       {!fetching && postList.map((post) => <Post key={post.id} posts={post} />)}
     </>
   );

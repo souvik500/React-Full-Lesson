@@ -4,7 +4,7 @@ import { PostListContext } from "../stores/Post-List-Store";
 const CreatePost = () => {
   const { addPost } = useContext(PostListContext);
 
-  const userId = useRef();
+  const userIdElement = useRef();
   const titleElement = useRef();
   const contentElement = useRef();
   const reactionElement = useRef();
@@ -12,9 +12,9 @@ const CreatePost = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const user_id = userId.current.value;
-    const title = titleElement.current.value;
-    const content = contentElement.current.value;
+    const userId = userIdElement.current.value;
+    const postTitle = titleElement.current.value;
+    const postBody = contentElement.current.value;
     const reactions = reactionElement.current.value; // TODO: implement reactions
     const tags = tagElement.current.value.split(" ");
 
@@ -28,15 +28,19 @@ const CreatePost = () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        title: title,
-        body: content,
+        id: Date.now(),
+        title: postTitle,
+        body: postBody,
         reactions: reactions,
-        userId: user_id,
+        userId: userId,
         tags: tags,
       }),
     })
       .then((res) => res.json())
-      .then((post) => addPost(post));
+      .then((post) => {
+        addPost(post);
+      })
+      .catch((err) => alert(`Error! ${err}`));
   };
 
   return (
@@ -47,7 +51,7 @@ const CreatePost = () => {
         </label>
         <input
           type="userId"
-          ref={userId}
+          ref={userIdElement}
           className="form-control"
           id="exampleInputEmail1"
           placeholder="Your user-id"
