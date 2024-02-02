@@ -7,6 +7,7 @@ import "./App.css";
 import CreatePost from "./components/Createpost";
 import PostList from "./components/PostList";
 import PostListProvider from "./stores/Post-List-Store";
+import { Outlet } from "react-router-dom";
 function App() {
   const [selectedTab, setSelectedTab] = useState("Home");
 
@@ -17,8 +18,7 @@ function App() {
 
         <div className="contain">
           <Header />
-
-          {selectedTab === "Home" ? <PostList /> : <CreatePost />}
+          <Outlet />
 
           <Footer />
         </div>

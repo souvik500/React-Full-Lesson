@@ -1,4 +1,4 @@
-import "bootstrap/dist/css/bootstrap.min.css";
+import { Link } from "react-router-dom";
 
 const Sidebar = ({ selectTab, setSelectTab }) => {
   return (
@@ -17,32 +17,21 @@ const Sidebar = ({ selectTab, setSelectTab }) => {
       </a>
       <hr />
       <ul className="nav nav-pills flex-column mb-auto">
-        <li className="nav-item" onClick={() => setSelectTab("Home")}>
-          <a
-            href="#"
-            className={`nav-link text-white ${
-              selectTab === "Home" && "active"
-            }`}
-            aria-current="page"
-          >
+        <li className="nav-item">
+          <Link to="/" className="nav-link text-white " aria-current="page">
             <svg className="bi pe-none me-2" width="16" height="16">
               <use xlinkHref="#home"></use>
             </svg>
             Home
-          </a>
+          </Link>
         </li>
-        <li onClick={() => setSelectTab("Create Post")}>
-          <a
-            href="#"
-            className={`nav-link text-white ${
-              selectTab === "Create Post" && "active"
-            }`}
-          >
+        <li>
+          <Link to="/create-post" className="nav-link text-white">
             <svg className="bi pe-none me-2" width="16" height="16">
               <use xlinkHref="#speedometer2"></use>
             </svg>
             Create Post
-          </a>
+          </Link>
         </li>
       </ul>
       <hr />

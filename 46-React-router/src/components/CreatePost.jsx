@@ -1,8 +1,10 @@
 import { useContext, useRef } from "react";
 import { PostListContext } from "../stores/Post-List-Store";
+import { useNavigate } from "react-router-dom";
 
 const CreatePost = () => {
   const { addPost } = useContext(PostListContext);
+  const navigation = useNavigate();
 
   const userIdElement = useRef();
   const titleElement = useRef();
@@ -39,6 +41,7 @@ const CreatePost = () => {
       .then((res) => res.json())
       .then((post) => {
         addPost(post);
+        navigation("/");
       })
       .catch((err) => alert(`Error! ${err}`));
   };
