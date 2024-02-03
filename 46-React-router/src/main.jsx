@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import PostList from "./components/PostList.jsx";
-import CreatePost from "./components/Createpost.jsx";
+import PostList, { PostLoader } from "./components/PostList.jsx";
+import CreatePost, { CreatePostAction } from "./components/Createpost.jsx";
 
 const router = createBrowserRouter([
   // Add your routes here
@@ -11,8 +11,17 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      { path: "/", element: <PostList /> },
-      { path: "/create-post", element: <CreatePost /> },
+      {
+        path: "/",
+        element: <PostList />,
+        loader: async () => await PostLoader(),
+      },
+
+      {
+        path: "/create-post",
+        element: <CreatePost />,
+        action: CreatePostAction,
+      },
     ],
   },
 ]);
